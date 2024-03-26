@@ -192,3 +192,9 @@ ADD COLUMN `updatedAt` DATETIME DEFAULT NOW() COMMENT '';
 ALTER TABLE `u186970938_clinica_db`.`reporte`
 ADD COLUMN `createdAt` DATETIME DEFAULT NOW() COMMENT '',
 ADD COLUMN `updatedAt` DATETIME DEFAULT NOW() COMMENT '';
+
+
+ALTER TABLE `u186970938_clinica_db`.`observacion` ADD FOREIGN KEY (`habitacion_id`) REFERENCES `u186970938_clinica_db`.`habitacion` (`id`);
+
+ALTER TABLE `u186970938_clinica_db`.`observacion` ADD FOREIGN KEY (`habitacion_id`) REFERENCES `u186970938_clinica_db`.`habitacion` (`id`);ALTER TABLE `u186970938_clinica_db`.`signos_vitales`
+ADD COLUMN `leido_por_doctor` TINYINT DEFAULT '0' COMMENT '';

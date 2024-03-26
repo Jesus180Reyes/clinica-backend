@@ -2,7 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import { ConnectionDB } from '../db/conection/connection';
 import { UserModel } from './user';
 import { TrabajadoresModel } from './trabajadores';
-type includes = 'paciente' | 'trabajador';
+import { HabitacionModel } from './habitacion';
+type includes = 'paciente' | 'trabajador' | 'habitacion';
 
 export const ObservacionModel = (include?: includes[]) => {
   const model = ConnectionDB.db.define<Model<IObservacion>>(
@@ -21,6 +22,9 @@ export const ObservacionModel = (include?: includes[]) => {
         type: DataTypes.STRING,
       },
       trabajador_id: {
+        type: DataTypes.INTEGER,
+      },
+      habitacion_id: {
         type: DataTypes.INTEGER,
       },
     },
@@ -43,6 +47,13 @@ export const ObservacionModel = (include?: includes[]) => {
         as: 'trabajador',
       });
     }
+    if (include && include.includes('habitacion')) {
+      model.hasOne(HabitacionModel(), {
+        foreignKey: 'id',
+        sourceKey: 'habitacion_id',
+        as: 'habitacion',
+      });
+    }
 
   }
   return model;
@@ -52,6 +63,6 @@ export interface IObservacion {
   id?: number;
   paciente_id?: number;
   frecuencia?: string;
-  diagnostico?: string;
   trabajador_id?: number;
+  habitacion_id?: number;
 }

@@ -34,6 +34,10 @@ export const SignosVitalesModel = (include?: includes[]) => {
       observacion_general: {
         type: DataTypes.STRING,
       },
+      leido_por_doctor: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
     },
     {
       tableName: 'signos_vitales',
@@ -58,4 +62,5 @@ export interface ISignosVitales {
   temperatura?: number;
   oxigeno?: number;
   observacion_general?: string;
+  leido_por_doctor?: boolean; 
 }
