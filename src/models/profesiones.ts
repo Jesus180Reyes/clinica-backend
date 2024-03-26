@@ -24,6 +24,6 @@ export const ProfesionesModel = () => {
 };
 
 export interface IProfesiones {
-  id?: string;
+  id?: number;
   nombre?: string;
 }
