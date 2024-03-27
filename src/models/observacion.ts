@@ -18,9 +18,6 @@ export const ObservacionModel = (include?: includes[]) => {
       paciente_id: {
         type: DataTypes.INTEGER,
       },
-      frecuencia: {
-        type: DataTypes.STRING,
-      },
       trabajador_id: {
         type: DataTypes.INTEGER,
       },
@@ -62,7 +59,6 @@ export const ObservacionModel = (include?: includes[]) => {
 export interface IObservacion {
   id?: number;
   paciente_id?: number;
-  frecuencia?: string;
   trabajador_id?: number;
   habitacion_id?: number;
 }
