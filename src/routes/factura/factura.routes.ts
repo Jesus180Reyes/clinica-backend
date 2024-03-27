@@ -7,5 +7,9 @@ const controller = new Controller();
 
 router.get('/', controller.get);
 
+router.get('/:id', controller.getByPacientId);
+
+router.put('/:id', controller.actualizarFactura);
+
 
 export default router;

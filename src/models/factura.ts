@@ -51,6 +51,10 @@ export const FacturaModel = (include?: includes[]) => {
       metodo_de_pago: {
         type: DataTypes.STRING,
       },
+      facturado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       tableName: 'factura',
@@ -108,4 +112,5 @@ export interface IFactura {
   subtotal?: number;
   total?: number;
   metodo_de_pago?: string;
+  facturado?: boolean;
 }

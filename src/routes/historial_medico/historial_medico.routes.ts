@@ -8,5 +8,7 @@ const controller = new Controller();
 
 router.get('/', controller.get)
 
+router.post('/', controller.crearHistorialMedico)
+
 
 export default router;

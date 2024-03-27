@@ -24,4 +24,15 @@ export class Controller {
             historiales,
         })
     }
+
+    crearHistorialMedico = async(req:Request, res:Response ) => {
+        const {body} = req;
+        const historialMedico =  await HistorialMedicoModel().create(body);
+
+        res.json({
+            ok: true,
+            historialMedico,
+        })
+
+    }
 }

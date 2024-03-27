@@ -50,4 +50,10 @@ export const HistorialMedicoModel = (include?: includes[]) => {
   return model;
 };
 
-export interface IHistorialMedico {}
+export interface IHistorialMedico {
+  id?: number
+  id_paciente?: number
+  id_profesion?: number
+  diagnostico?: string
+  tratamiento?: string
+}
