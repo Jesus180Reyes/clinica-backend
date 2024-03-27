@@ -4,8 +4,6 @@ import { Controller } from '../../controllers/observacion/observacion.controller
 const router = Router();
 const controller = new Controller();
 
-router.get('/',controller.get);
-
-
+router.get('/', controller.get);
 
 export default router;

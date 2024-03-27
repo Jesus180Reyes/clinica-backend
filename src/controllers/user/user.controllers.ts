@@ -20,27 +20,31 @@ export class Controller {
   createUser = async (req: Request, res: Response) => {
     try {
       const { body } = req;
-      const trabajador = await TrabajadoresModel().findOne({where: {
-        id: body.trabajadorId,
-      }});
-      if((trabajador?.dataValues.profesionId  !== 2) || (trabajador?.dataValues.roleId !==1)) {
+      const trabajador = await TrabajadoresModel().findOne({
+        where: {
+          id: body.trabajadorId,
+        },
+      });
+      if (
+        trabajador?.dataValues.profesionId !== 2 ||
+        trabajador?.dataValues.roleId !== 1
+      ) {
         res.status(401).json({
           ok: false,
-          msg: 'No tienes permisos para crear Usuarios'
+          msg: 'No tienes permisos para crear Usuarios',
         });
         return;
-      } 
+      }
       // TODO: CREAR UN MIDDLEWARE CON ESTA VALIDACION
-      const userExists = await UserModel().findOne({where: {
-        [Op.or]: [
-          { email: body.email },
-          { dni: body.dni }
-        ]
-      }});
-      if(userExists) {
+      const userExists = await UserModel().findOne({
+        where: {
+          [Op.or]: [{ email: body.email }, { dni: body.dni }],
+        },
+      });
+      if (userExists) {
         res.status(401).json({
           ok: false,
-          msg: 'Usuario actualmente existe'
+          msg: 'Usuario actualmente existe',
         });
         return;
       }
@@ -60,42 +64,39 @@ export class Controller {
     }
   };
 
-  getUsersByAuxiliarDoctor = async(req:Request, res:Response) => {
+  getUsersByAuxiliarDoctor = async (req: Request, res: Response) => {
     const pacientes = await UserModel(['tipoSangre']).findAll({
       where: {
-        leido_por_auxiliar_medico: false
+        leido_por_auxiliar_medico: false,
       },
       include: [
         {
           model: TipoSangreModel(),
-          as: 'tipoSangre'
-        }
-      ]
-    },
-    
-    );
+          as: 'tipoSangre',
+        },
+      ],
+    });
 
     res.json({
       ok: true,
-      pacientes
-    })
-  }
-  getUsersByDoctor =async (req:Request, res:Response) => {
+      pacientes,
+    });
+  };
+  getUsersByDoctor = async (req: Request, res: Response) => {
     const pacientes = await UserModel(['tipoSangre']).findAll({
       where: {
-        leido_por_auxiliar_medico: true
+        leido_por_auxiliar_medico: true,
       },
       include: [
         {
           model: TipoSangreModel(),
-          as: 'tipoSangre'
-        }
-      ]
+          as: 'tipoSangre',
+        },
+      ],
     });
     res.json({
       ok: true,
       pacientes,
-    })
-
-  }
+    });
+  };
 }

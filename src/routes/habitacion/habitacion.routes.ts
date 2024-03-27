@@ -6,5 +6,4 @@ const controller = new Controller();
 
 router.get('/', controller.get);
 
-
 export default router;

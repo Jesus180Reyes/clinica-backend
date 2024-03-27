@@ -51,7 +51,6 @@ export const ObservacionModel = (include?: includes[]) => {
         as: 'habitacion',
       });
     }
-
   }
   return model;
 };

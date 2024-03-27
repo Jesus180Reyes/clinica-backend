@@ -36,7 +36,7 @@ export const SignosVitalesModel = (include?: includes[]) => {
       },
       leido_por_doctor: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
     },
     {
@@ -62,5 +62,5 @@ export interface ISignosVitales {
   temperatura?: number;
   oxigeno?: number;
   observacion_general?: string;
-  leido_por_doctor?: boolean; 
+  leido_por_doctor?: boolean;
 }

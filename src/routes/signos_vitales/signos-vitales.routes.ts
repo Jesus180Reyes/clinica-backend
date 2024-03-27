@@ -6,5 +6,4 @@ const controller = new Controller();
 router.get('/', controller.get);
 router.post('/', controller.crearSignosVitales);
 
-
 export default router;

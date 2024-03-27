@@ -10,19 +10,18 @@ export class Controller {
   };
   post = (req: Request, res: Response) => {
     try {
-    const {body} = req;
-    const consultorio = ConsultorioModel().create(body)
-    res.json({
-      ok: true,
-      consultorio,
-    });
+      const { body } = req;
+      const consultorio = ConsultorioModel().create(body);
+      res.json({
+        ok: true,
+        consultorio,
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({
         ok: false,
-        msg: `Hable con el Administrador: ${error}`
+        msg: `Hable con el Administrador: ${error}`,
       });
-      
     }
   };
 }
