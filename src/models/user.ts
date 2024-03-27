@@ -35,6 +35,10 @@ export const UserModel = (include?: includes[]) => {
       birthDay: {
         type: DataTypes.DATE,
       },
+      leido_por_auxiliar_medico: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
     },
     {
       tableName: 'pacientes',
@@ -58,4 +62,5 @@ export interface IUsers {
   email?: string;
   tipoSangreId?: string;
   birthDay?: Date;
+  leido_por_auxiliar_medico?: boolean 
 }

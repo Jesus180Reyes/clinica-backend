@@ -40,7 +40,10 @@ export const FacturaModel = (include?: includes[]) => {
         type: DataTypes.INTEGER,
       },
       estadia: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+      },
+      subtotal: {
+        type: DataTypes.INTEGER,
       },
       total: {
         type: DataTypes.DOUBLE,
@@ -101,7 +104,8 @@ export interface IFactura {
   habitacion_id?: number;
   observacion_id?: number;
   consultorio_id?: number;
-  estadia?: string;
+  estadia?: number;
+  subtotal?: number;
   total?: number;
   metodo_de_pago?: string;
 }

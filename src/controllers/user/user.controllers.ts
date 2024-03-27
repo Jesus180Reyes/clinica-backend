@@ -59,4 +59,43 @@ export class Controller {
       });
     }
   };
+
+  getUsersByAuxiliarDoctor = async(req:Request, res:Response) => {
+    const pacientes = await UserModel(['tipoSangre']).findAll({
+      where: {
+        leido_por_auxiliar_medico: false
+      },
+      include: [
+        {
+          model: TipoSangreModel(),
+          as: 'tipoSangre'
+        }
+      ]
+    },
+    
+    );
+
+    res.json({
+      ok: true,
+      pacientes
+    })
+  }
+  getUsersByDoctor =async (req:Request, res:Response) => {
+    const pacientes = await UserModel(['tipoSangre']).findAll({
+      where: {
+        leido_por_auxiliar_medico: true
+      },
+      include: [
+        {
+          model: TipoSangreModel(),
+          as: 'tipoSangre'
+        }
+      ]
+    });
+    res.json({
+      ok: true,
+      pacientes,
+    })
+
+  }
 }

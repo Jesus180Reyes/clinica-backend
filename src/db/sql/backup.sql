@@ -198,3 +198,10 @@ ALTER TABLE `u186970938_clinica_db`.`observacion` ADD FOREIGN KEY (`habitacion_i
 
 ALTER TABLE `u186970938_clinica_db`.`observacion` ADD FOREIGN KEY (`habitacion_id`) REFERENCES `u186970938_clinica_db`.`habitacion` (`id`);ALTER TABLE `u186970938_clinica_db`.`signos_vitales`
 ADD COLUMN `leido_por_doctor` TINYINT DEFAULT '0' COMMENT '';
+
+ALTER TABLE `u186970938_clinica_db`.`pacientes`
+ADD COLUMN `leido_por_auxiliar_medico` TINYINT DEFAULT '0' COMMENT '';
+
+CREATE TABLE `u186970938_clinica_db`.`examanes_resultados` (`id` serial);
+
+CREATE TABLE `u186970938_clinica_db`.`examenes` (`id` serial);
