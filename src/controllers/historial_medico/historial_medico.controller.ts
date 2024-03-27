@@ -26,6 +26,7 @@ export class Controller {
     }
 
     crearHistorialMedico = async(req:Request, res:Response ) => {
+       try {
         const {body} = req;
         const historialMedico =  await HistorialMedicoModel().create(body);
 
@@ -34,5 +35,13 @@ export class Controller {
             historialMedico,
         })
 
+       } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+              ok: false,
+              msg: `Hable con el Administrador: ${error}`
+        }); 
+        
+       }
     }
 }

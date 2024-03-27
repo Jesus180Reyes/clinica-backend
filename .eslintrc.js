@@ -28,7 +28,7 @@ module.exports = {
         '@typescript-eslint'
     ],
     'rules': {
-    '@typescript-eslint/quotes': ['warn', 'single']
-        
+    '@typescript-eslint/quotes': ['warn', 'single'],
+    '@typescript-eslint/no-unused-vars': 'warn'
     }
 }

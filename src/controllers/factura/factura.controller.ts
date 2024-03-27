@@ -89,6 +89,7 @@ export class Controller {
     }
 
     actualizarFactura = async(req:Request, res: Response) => {
+       try {
         const {id} = req.params
         const factura = await FacturaModel().update({facturado: true},{
             where: {id: id}
@@ -98,5 +99,12 @@ export class Controller {
             ok: true,
             factura
         })
+       } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+              ok: false,
+              msg: `Hable con el Administrador: ${error}`
+        }); 
+       }
     }
 }

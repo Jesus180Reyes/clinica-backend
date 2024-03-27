@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ConsultorioModel } from '../../models/consultorio';
 
 export class Controller {
   get = (req: Request, res: Response) => {
@@ -8,9 +9,20 @@ export class Controller {
     });
   };
   post = (req: Request, res: Response) => {
+    try {
+    const {body} = req;
+    const consultorio = ConsultorioModel().create(body)
     res.json({
       ok: true,
-      msg: 'Post Users',
+      consultorio,
     });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        ok: false,
+        msg: `Hable con el Administrador: ${error}`
+      });
+      
+    }
   };
 }

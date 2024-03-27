@@ -16,6 +16,7 @@ export class Controller {
 
 
     crearSignosVitales = async(req:Request, res:Response) => {
+       try {
         const {body} = req;
         const trabajador = await TrabajadoresModel().findByPk(body.trabajadorId);
 
@@ -62,6 +63,14 @@ export class Controller {
             signosVitales,
             userFactura,
 
-        });
+});
+       } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+              ok: false,
+              msg: `Hable con el Administrador: ${error}`
+        }); 
+        
+       }
         }
 }
