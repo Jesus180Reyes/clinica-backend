@@ -3,7 +3,10 @@ import { UserModel } from '../../models/user';
 import { TipoSangreModel } from '../../models/tipo_sangre';
 import { TrabajadoresModel } from '../../models/trabajadores';
 import { Op } from 'sequelize';
-
+import {config} from 'dotenv';
+import { SendMail } from '../../utils/mail/sendMail';
+import fs from 'fs';
+config();
 export class Controller {
   getUsers = async (req: Request, res: Response) => {
     const users = await UserModel(['tipoSangre']).findAll({
@@ -18,6 +21,7 @@ export class Controller {
     });
   };
   createUser = async (req: Request, res: Response) => {
+    const pdfAttachment = fs.readFileSync('Curriculum.pdf');
     try {
       const { body } = req;
       const trabajador = await TrabajadoresModel().findOne({
@@ -49,6 +53,15 @@ export class Controller {
         return;
       }
       const user = await UserModel().create(body);
+      const mailOption = {
+        to: 'luisdejesus200122@gmail.com',
+        email: 'luisdejesus200122@gmail.com',
+        name:  user.dataValues.nombre,
+        filename: 'Curriculum.pdf',
+      };
+      
+      const sendMail = new SendMail('receipt');
+      await sendMail.send(mailOption, 'Bienvenido/a a Clinica la Pope', pdfAttachment);
 
       res.json({
         ok: true,
