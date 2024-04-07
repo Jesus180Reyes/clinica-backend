@@ -3,6 +3,7 @@ import { ExamenesModel } from '../../models/examenes';
 import { ExamenesResultadosModel } from '../../models/examenes_resultados';
 import { UserModel } from '../../models/user';
 import { TrabajadoresModel } from '../../models/trabajadores';
+import { ProfesionesModel } from '../../models/profesiones';
 
 export class Controller {
   get = async (req: Request, res: Response) => {
@@ -24,8 +25,14 @@ export class Controller {
           as: 'paciente'
         },
         {
-          model: TrabajadoresModel(),
-          as: 'trabajador'
+          model: TrabajadoresModel(['profesion']),
+          as: 'trabajador',
+          include: [
+            {
+              model: ProfesionesModel(),
+              as: 'profesion'
+            }
+          ]
         },
       ]
     });
