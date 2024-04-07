@@ -3,9 +3,24 @@ import { SignosVitalesModel } from '../../models/signos_vitales';
 import { TrabajadoresModel } from '../../models/trabajadores';
 import { ObservacionModel } from '../../models/observacion';
 import { FacturaModel } from '../../models/factura';
+import { UserModel } from '../../models/user';
+import { TipoSangreModel } from '../../models/tipo_sangre';
 export class Controller {
   get = async (req: Request, res: Response) => {
-    const signosVitales = await SignosVitalesModel().findAll();
+    const signosVitales = await SignosVitalesModel(['paciente']).findAll({
+      include: [
+        {
+          model: UserModel(['tipoSangre']),
+          as: 'paciente',
+          include: [
+            {
+              model: TipoSangreModel(),
+              as: 'tipoSangre'
+            }
+          ],
+        }
+      ]
+    });
 
     res.json({
       ok: true,
@@ -16,7 +31,7 @@ export class Controller {
   crearSignosVitales = async (req: Request, res: Response) => {
     try {
       const { body } = req;
-      const trabajador = await TrabajadoresModel().findByPk(body.trabajadorId);
+      const trabajador = await TrabajadoresModel([]).findByPk(body.trabajadorId);
 
       if (trabajador?.dataValues.profesionId !== 3) {
         res.status(401).json({

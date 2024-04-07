@@ -41,18 +41,21 @@ export const ExamenesResultadosModel = (include?: includes[]) => {
     model.hasOne(ExamenesModel(), {
       foreignKey: 'id',
       sourceKey: 'examenes_id',
+      as: 'examenes'
     });
   }
   if (include && include.includes('paciente')) {
     model.hasOne(UserModel(), {
       foreignKey: 'id',
       sourceKey: 'paciente_id',
+      as: 'paciente'
     });
   }
   if (include && include.includes('trabajador')) {
     model.hasOne(TrabajadoresModel(), {
       foreignKey: 'id',
       sourceKey: 'trabajador_id',
+      as: 'trabajador'
     });
   }
 

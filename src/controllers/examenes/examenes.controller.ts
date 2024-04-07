@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { ExamenesModel } from '../../models/examenes';
 import { ExamenesResultadosModel } from '../../models/examenes_resultados';
+import { UserModel } from '../../models/user';
+import { TrabajadoresModel } from '../../models/trabajadores';
 
 export class Controller {
   get = async (req: Request, res: Response) => {
@@ -11,7 +13,22 @@ export class Controller {
     });
   };
   getResultadosExamenes = async (req: Request, res: Response) => {
-    const examenes = await ExamenesResultadosModel().findAll();
+    const examenes = await ExamenesResultadosModel(['examenes','paciente', 'trabajador']).findAll({
+      include: [
+        {
+          model: ExamenesModel(),
+          as: 'examenes'
+        },
+        {
+          model: UserModel(),
+          as: 'paciente'
+        },
+        {
+          model: TrabajadoresModel(),
+          as: 'trabajador'
+        },
+      ]
+    });
     res.json({
       ok: true,
       examenes,
