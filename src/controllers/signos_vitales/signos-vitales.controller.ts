@@ -31,9 +31,9 @@ export class Controller {
   crearSignosVitales = async (req: Request, res: Response) => {
     try {
       const { body } = req;
-      const trabajador = await TrabajadoresModel([]).findByPk(body.trabajadorId);
+      const trabajador = await TrabajadoresModel().findByPk(body.trabajadorId);
 
-      if (trabajador?.dataValues.profesionId !== 3) {
+      if (trabajador?.dataValues.profesionId !== 3 && trabajador?.dataValues.roleId !== 2) {
         res.status(401).json({
           ok: false,
           msg: 'No tienes permisos para Crear Signos vitales',
@@ -43,14 +43,14 @@ export class Controller {
       const signosVitales = await SignosVitalesModel().create(body);
 
       if (
-        signosVitales.dataValues.frecuencia_cardiaca! >= 100 ||
-        signosVitales.dataValues.frecuencia_cardiaca! <= 60 ||
-        signosVitales.dataValues.frecuencia_respiratoria! > 20 ||
-        signosVitales.dataValues.frecuencia_respiratoria! < 12 ||
-        signosVitales.dataValues.oxigeno! < 95 ||
-        signosVitales.dataValues.presion_arterial! > 120 ||
-        signosVitales.dataValues.temperatura! > 38 ||
-        signosVitales.dataValues.temperatura! < 36
+        (signosVitales.dataValues.frecuencia_cardiaca! >= 100 ||
+        signosVitales.dataValues.frecuencia_cardiaca! <= 60) ||
+        (signosVitales.dataValues.frecuencia_respiratoria! > 20 ||
+        signosVitales.dataValues.frecuencia_respiratoria! < 12) ||
+        (signosVitales.dataValues.oxigeno! < 95) ||
+        (signosVitales.dataValues.presion_arterial! > 120) ||
+        (signosVitales.dataValues.temperatura! > 38 ||
+        signosVitales.dataValues.temperatura! < 36)
       ) {
         const userOnObservation = await ObservacionModel().create({
           habitacion_id: 1,
