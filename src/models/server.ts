@@ -67,6 +67,7 @@ export class Server {
 
     // Directorio Público
     this.app.use(express.static('./src/public'));
+    this.app.use(express.static('./src/templates'));
   }
 
   routes() {

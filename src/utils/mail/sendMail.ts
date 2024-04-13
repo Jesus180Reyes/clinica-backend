@@ -24,7 +24,7 @@ export class SendMail {
           pass: process.env.NODEMAILER_PASSWORD,
     },
     });
-    this.emailTemplateProvider = fs.readFileSync(path.join(__dirname, `../../public/handlebars/${this.template}.hbs`), 'utf8');
+    this.emailTemplateProvider = fs.readFileSync(path.join(__dirname, `../../templates/handlebars/${this.template}.hbs`), 'utf8');
 
   }
 
