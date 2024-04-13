@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { SignosVitalesModel } from '../../models/signos_vitales';
 import { TrabajadoresModel } from '../../models/trabajadores';
@@ -86,4 +87,28 @@ export class Controller {
       });
     }
   };
+
+  actualizarStatus = async(req:Request, res: Response) => {
+    const {id} = req.params; 
+    try {
+      const dataUpdated = {leido_por_doctor: true}
+    const status = await SignosVitalesModel().update(dataUpdated, {
+      where: {id: id}
+    });
+
+    res.json({
+      ok: true,
+      msg: 'Status Actualizado',
+      status,
+    })
+    } catch (error: any ) {
+      console.error(error.message);
+     return res.status(500).json({
+        ok: false,
+        msg: `Hable con el administrador: ${error}`
+      });
+    }
+
+    
+  }
 }
