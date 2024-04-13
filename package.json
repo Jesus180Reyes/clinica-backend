@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
-    "build": "tsc",
+    "build": "tsc && cpy src/templates/ dist/src/templates/",
     "lint": "eslint . --ext .ts",
     "format-code": "npx prettier --write src/"
   },
@@ -27,6 +27,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "cpy-cli": "^5.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
     "handlebars": "^4.7.8",
