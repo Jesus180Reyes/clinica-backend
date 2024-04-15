@@ -14,6 +14,7 @@ import signosVitales from '../routes/signos_vitales/signos-vitales.routes';
 import tipoSangre from '../routes/tipo_sangre/tipo-sangre.routes';
 import trabajadores from '../routes/trabajadores/trabajadores.routes';
 import examenes from '../routes/examenes/examenes.routes';
+import auth from '../routes/auth/auth.routes';
 import { ConnectionDB } from '../db/conection/connection';
 export class Server {
   public paths = {
@@ -31,6 +32,7 @@ export class Server {
     tipoSangre: '/api/tipoSangre',
     trabajadores: '/api/trabajadores',
     examenes: '/api/examenes',
+    auth: '/api/auth',
   };
   public app: Application;
   public port: string;
@@ -85,6 +87,7 @@ export class Server {
     this.app.use(this.paths.tipoSangre, tipoSangre);
     this.app.use(this.paths.trabajadores, trabajadores);
     this.app.use(this.paths.examenes, examenes);
+    this.app.use(this.paths.auth, auth);
   }
 
   listen() {
