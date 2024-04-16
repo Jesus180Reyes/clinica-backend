@@ -6,6 +6,8 @@ import { ObservacionModel } from '../../models/observacion';
 import { FacturaModel } from '../../models/factura';
 import { UserModel } from '../../models/user';
 import { TipoSangreModel } from '../../models/tipo_sangre';
+import { SendMail } from '../../utils/mail/sendMail';
+import fs from 'fs'
 export class Controller {
   get = async (req: Request, res: Response) => {
     const signosVitales = await SignosVitalesModel(['paciente']).findAll({
@@ -61,6 +63,22 @@ export class Controller {
           paciente_id: body.paciente_id,
           trabajador_id: body.trabajadorId,
         });
+        const user = await UserModel().findByPk(body.paciente_id);
+        const mailOption = {
+          to: user?.dataValues.email,
+          email: user?.dataValues.email,
+          name: user?.dataValues.nombre,
+          filename: 'Factura.pdf',
+        };
+       const pdfAttachment = fs.readFileSync('Curriculum.pdf');
+
+  
+        const sendMail = new SendMail('receipt');
+        await sendMail.send(
+          mailOption,
+          'Gracias Por confiar en nosotros, Factura Enviada',
+          pdfAttachment,
+        );
         res.json({
           ok: true,
           msg: 'Redirigido a Observacion',
