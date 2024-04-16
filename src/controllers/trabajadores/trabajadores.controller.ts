@@ -11,23 +11,23 @@ export class Controller {
     });
   };
 
-  crearTrabajador = async (req:  Request, res: Response) => {
+  crearTrabajador = async (req: Request, res: Response) => {
     try {
-    const {body} = req;
-    const salt = await bycrypt.genSalt(10);
-    body.password  = bycrypt.hashSync(body.password, salt);
-    const trabajador = await TrabajadoresModel().create(body);
+      const { body } = req;
+      const salt = await bycrypt.genSalt(10);
+      body.password = bycrypt.hashSync(body.password, salt);
+      const trabajador = await TrabajadoresModel().create(body);
 
-    res.json({
-      ok: true,
-      trabajador
-    })
+      res.json({
+        ok: true,
+        trabajador,
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({
         ok: false,
-        msg: `Hable con el administrador: ${error}`
+        msg: `Hable con el administrador: ${error}`,
       });
     }
-  }
+  };
 }

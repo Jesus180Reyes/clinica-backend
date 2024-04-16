@@ -3,7 +3,7 @@ import { UserModel } from '../../models/user';
 import { TipoSangreModel } from '../../models/tipo_sangre';
 import { TrabajadoresModel } from '../../models/trabajadores';
 import { Op } from 'sequelize';
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 import { SendMail } from '../../utils/mail/sendMail';
 import fs from 'fs';
 config();
@@ -56,12 +56,16 @@ export class Controller {
       const mailOption = {
         to: user.dataValues.email,
         email: user.dataValues.email,
-        name:  user.dataValues.nombre,
+        name: user.dataValues.nombre,
         filename: 'Factura.pdf',
       };
-      
+
       const sendMail = new SendMail('welcome');
-      await sendMail.send(mailOption, 'Bienvenido/a a Clinica la Pope', pdfAttachment);
+      await sendMail.send(
+        mailOption,
+        'Bienvenido/a a Clinica la Pope',
+        pdfAttachment,
+      );
 
       res.json({
         ok: true,

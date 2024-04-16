@@ -14,15 +14,19 @@ export class Controller {
     });
   };
   getResultadosExamenes = async (req: Request, res: Response) => {
-    const examenes = await ExamenesResultadosModel(['examenes','paciente', 'trabajador']).findAll({
+    const examenes = await ExamenesResultadosModel([
+      'examenes',
+      'paciente',
+      'trabajador',
+    ]).findAll({
       include: [
         {
           model: ExamenesModel(),
-          as: 'examenes'
+          as: 'examenes',
         },
         {
           model: UserModel(),
-          as: 'paciente'
+          as: 'paciente',
         },
         {
           model: TrabajadoresModel(['profesion']),
@@ -30,11 +34,11 @@ export class Controller {
           include: [
             {
               model: ProfesionesModel(),
-              as: 'profesion'
-            }
-          ]
+              as: 'profesion',
+            },
+          ],
         },
-      ]
+      ],
     });
     res.json({
       ok: true,

@@ -3,7 +3,7 @@ import { Controller } from '../../controllers/trabajadores/trabajadores.controll
 
 const router = Router();
 const controller = new Controller();
-router.get('/',  controller.get);
+router.get('/', controller.get);
 router.post('/', controller.crearTrabajador);
 
 export default router;
