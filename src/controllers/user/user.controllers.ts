@@ -54,13 +54,13 @@ export class Controller {
       }
       const user = await UserModel().create(body);
       const mailOption = {
-        to: 'luisdejesus200122@gmail.com',
-        email: 'luisdejesus200122@gmail.com',
+        to: user.dataValues.email,
+        email: user.dataValues.email,
         name:  user.dataValues.nombre,
-        filename: 'Curriculum.pdf',
+        filename: 'Factura.pdf',
       };
       
-      const sendMail = new SendMail('receipt');
+      const sendMail = new SendMail('welcome');
       await sendMail.send(mailOption, 'Bienvenido/a a Clinica la Pope', pdfAttachment);
 
       res.json({
