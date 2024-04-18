@@ -473,7 +473,7 @@ export class Controller {
           borderColor: borderTitle
         },
         {
-          text: user?.estadia,
+          text: `${user?.estadia} Dia/s`,
           color: '#657685',
           border: border,
           borderColor: borderText,
