@@ -123,6 +123,11 @@ export class Controller {
         trabajador_id: body.trabajadorId,
         metodo_de_pago: 'N/A',
       });
+      await SignosVitalesModel().update({leido_por_doctor: true }, {
+        where: {
+          paciente_id: body.paciente_id
+        }
+      })
       const receiptTable = {
         margin: [30, 30, 30, 30],
        columnGap: 10,
