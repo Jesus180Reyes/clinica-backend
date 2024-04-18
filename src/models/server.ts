@@ -16,6 +16,8 @@ import trabajadores from '../routes/trabajadores/trabajadores.routes';
 import examenes from '../routes/examenes/examenes.routes';
 import auth from '../routes/auth/auth.routes';
 import { ConnectionDB } from '../db/conection/connection';
+import chalk from 'chalk';
+import moment from 'moment';
 export class Server {
   public paths = {
     user: '/api/user',
@@ -54,9 +56,9 @@ export class Server {
   async conectarDB() {
     try {
       await ConnectionDB.db.authenticate();
-      console.log('Conectado a la BD!!', ConnectionDB.db.getDatabaseName());
+      console.log(chalk.greenBright('Conectado a la BD!!', ConnectionDB.db.getDatabaseName()));
     } catch (error) {
-      console.log('Hable con el administrador:: ', error);
+      console.log(chalk.red('Hable con el administrador:: ', error));
     }
   }
 
@@ -91,8 +93,9 @@ export class Server {
   }
 
   listen() {
+    const log = console.log;
     this.app.listen(this.port, () => {
-      console.log('Servidor corriendo en puerto', this.port);
+      log(chalk.green(`${moment().format('D/MM/YYYY h:mm a')}: Servidor corriendo en puerto`, this.port));
     });
   }
 }
