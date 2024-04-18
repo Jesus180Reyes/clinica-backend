@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { ConnectionDB } from '../db/conection/connection';
 export const TipoSangreModel = () => {
-  const model = ConnectionDB.db.define<Model<IUsers>>(
+  const model = ConnectionDB.db.define<Model<ITipoSangre>>(
     'tipoSangre',
     {
       id: {
@@ -22,7 +22,7 @@ export const TipoSangreModel = () => {
 
   return model;
 };
-export interface IUsers {
+export interface ITipoSangre {
   id?: number;
   nombre?: string;
 }
