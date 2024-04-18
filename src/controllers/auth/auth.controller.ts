@@ -4,6 +4,7 @@ import { TrabajadoresModel } from '../../models/trabajadores';
 import bycrypt from 'bcryptjs';
 import { ProfesionesModel } from '../../models/profesiones';
 import { TipoSangreModel } from '../../models/tipo_sangre';
+import qr from 'qrcode';
 export class Controller {
   login = async (req: Request, res: Response) => {
     try {
@@ -55,4 +56,29 @@ export class Controller {
       });
     }
   };
+
+  qrGet =async (req:Request, res: Response) => {
+    // Datos que quieres codificar en el código QR
+const data = 'https://www.google.com';
+
+// Opciones para el código QR (puedes personalizarlo según tus necesidades)
+const options:qr.QRCodeToFileOptions = {
+  // tamaño de la imagen del QR
+  width: 300,
+  // height: 300,
+  
+  // formato de la imagen ('png', 'svg', 'utf8', 'svg', 'terminal')
+  type: 'png'
+};
+
+// Generar el código QR
+ await qr.toFile('./codigo_qr3.png',data, options);
+// res.header('Content-Type', 'image/png');
+// qr.toFileStream(res as Response<Buffer>, data, options);
+
+    res.json({
+      ok: true,
+      msg: 'QR-CODE CREADO EXITOSAMENTE'
+    });
+  }
 }
