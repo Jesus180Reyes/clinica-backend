@@ -118,7 +118,7 @@ export class Controller {
       const userFactura = await FacturaModel().create({
         paciente_id: signosVitales.dataValues.paciente_id,
         estadia: estadia,
-        subtotal: 1250  + (1250 * estadia),
+        subtotal: 1250  * estadia,
         total: (1250 * 0.15) + (1250 * estadia),
         trabajador_id: body.trabajadorId,
         metodo_de_pago: 'N/A',
