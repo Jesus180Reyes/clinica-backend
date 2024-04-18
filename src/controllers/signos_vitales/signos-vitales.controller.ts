@@ -77,6 +77,7 @@ export class Controller {
       const estadia = await SignosVitalesModel().count({
         where: {
           paciente_id: body.paciente_id,
+          leido_por_doctor: false,
         }
       })
         
