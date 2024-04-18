@@ -57,28 +57,28 @@ export class Controller {
     }
   };
 
-  qrGet =async (req:Request, res: Response) => {
+  qrGet = async (req: Request, res: Response) => {
     // Datos que quieres codificar en el código QR
-const data = 'https://www.google.com';
+    const data = 'https://www.google.com';
 
-// Opciones para el código QR (puedes personalizarlo según tus necesidades)
-const options:qr.QRCodeToFileOptions = {
-  // tamaño de la imagen del QR
-  width: 300,
-  // height: 300,
-  
-  // formato de la imagen ('png', 'svg', 'utf8', 'svg', 'terminal')
-  type: 'png'
-};
+    // Opciones para el código QR (puedes personalizarlo según tus necesidades)
+    const options: qr.QRCodeToFileOptions = {
+      // tamaño de la imagen del QR
+      width: 300,
+      // height: 300,
 
-// Generar el código QR
- await qr.toFile('./codigo_qr3.png',data, options);
-// res.header('Content-Type', 'image/png');
-// qr.toFileStream(res as Response<Buffer>, data, options);
+      // formato de la imagen ('png', 'svg', 'utf8', 'svg', 'terminal')
+      type: 'png',
+    };
+
+    // Generar el código QR
+    await qr.toFile('./codigo_qr3.png', data, options);
+    // res.header('Content-Type', 'image/png');
+    // qr.toFileStream(res as Response<Buffer>, data, options);
 
     res.json({
       ok: true,
-      msg: 'QR-CODE CREADO EXITOSAMENTE'
+      msg: 'QR-CODE CREADO EXITOSAMENTE',
     });
-  }
+  };
 }
