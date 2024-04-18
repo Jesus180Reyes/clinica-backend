@@ -95,7 +95,7 @@ export class Server {
   listen() {
     const log = console.log;
     this.app.listen(this.port, () => {
-      log(chalk.green(`${moment().format('D/MM/YYYY h:mm a')}: Servidor corriendo en puerto`, this.port));
+      log(`${chalk.greenBright(moment().format('D/MM/YYYY h:mm a'))} : ${chalk.green('Servidor corriendo en puerto')}`, chalk.green(this.port));
     });
   }
 }
