@@ -21,7 +21,6 @@ export class Controller {
     });
   };
   createUser = async (req: Request, res: Response) => {
-    const pdfAttachment = fs.readFileSync('Curriculum.pdf');
     try {
       const { body } = req;
       const trabajador = await TrabajadoresModel().findOne({
