@@ -18,6 +18,7 @@ import auth from '../routes/auth/auth.routes';
 import { ConnectionDB } from '../db/conection/connection';
 import chalk from 'chalk';
 import moment from 'moment';
+import multer from 'multer';
 export class Server {
   public paths = {
     user: '/api/user',
@@ -73,7 +74,10 @@ export class Server {
 
     // Lectura y parseo del body
     this.app.use(express.json());
-
+    this.app.use(express.urlencoded({extended: true}))
+    const storage = multer.memoryStorage();
+   const upload =  multer({storage: storage});
+    this.app.use(upload.any());
     // Directorio Público
     this.app.use(express.static('./src/public'));
     this.app.use(express.static('./src/templates'));

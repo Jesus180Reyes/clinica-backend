@@ -57,14 +57,12 @@ export class Controller {
         to: user.dataValues.email,
         email: user.dataValues.email,
         name: user.dataValues.nombre,
-        filename: 'Factura.pdf',
       };
 
       const sendMail = new SendMail('welcome');
       await sendMail.send(
         mailOption,
         'Bienvenido/a a Clinica la Pope',
-        pdfAttachment,
       );
 
       res.json({

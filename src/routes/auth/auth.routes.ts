@@ -5,5 +5,7 @@ const router = Router();
 const controller = new Controller();
 router.post('/', controller.login);
 router.get('/qr', controller.qrGet);
+router.post('/file', controller.uploadFile);
+router.get('/encrypt', controller.encrypt);
 
 export default router;

@@ -5,6 +5,11 @@ import bycrypt from 'bcryptjs';
 import { ProfesionesModel } from '../../models/profesiones';
 import { TipoSangreModel } from '../../models/tipo_sangre';
 import qr from 'qrcode';
+import fs from 'fs';
+import crypto from 'crypto';
+import { CryptoObserver } from '../../helpers/crypto';
+import { SendMail } from '../../utils/mail/sendMail';
+import { HistorialMedicoModel } from '../../models/historial_medico_model';
 export class Controller {
   login = async (req: Request, res: Response) => {
     try {
@@ -81,4 +86,99 @@ export class Controller {
       msg: 'QR-CODE CREADO EXITOSAMENTE',
     });
   };
+
+  uploadFile =async (req:any, res:Response) => {
+    const files = req.files;
+    const contenido = fs.readFileSync(files[0].path);
+    const data =  fs.readFileSync('hello.txt', 'utf-8');
+
+     fs.writeFileSync(`./uploads/${files[0].originalname}`, contenido)
+   
+    res.json({
+      ok: true,
+      data
+    });
+  }
+
+  encrypt = async(req:any, res: Response) => {
+
+  // *  Obtiene los archivos subidos desde la solicitud.
+  const files = req.files;
+  console.log(files); //* Imprime los archivos subidos en la consola.
+
+  // *  Obtiene el contenido del primer archivo subido.
+  const contenido = files[0].buffer;
+
+  // * Convierte el contenido del archivo a texto utilizando codificación UTF-8.
+  const contenidoTexto = contenido.toString('utf-8');
+  console.table(contenidoTexto); // Muestra el contenido del archivo en formato de tabla.
+
+  //* Obtiene el historial médico correspondiente al ID 34 desde la base de datos.
+  const historial = await HistorialMedicoModel().findOne({
+    where: {
+      id: 36,
+    }
+  });
+  
+
+  // const data =  fs.readFileSync(contenido, 'hex');
+  // console.log(data);
+
+//* Genera una clave de encriptación aleatoria de 32 bytes (256 bits) utilizando el método randomBytes del módulo crypto.
+// const encryptionKey = crypto.randomBytes(32);
+// const historial = await HistorialMedicoModel().create({
+//   diagnostico:  CryptoObserver.encryptData('Nuevos estados CRYPTO', encryptionKey),   
+//   id_paciente: 6,
+//   tratamiento: 'Acetaminofen'
+// });
+
+
+// *Ejemplo de uso: Encripta el texto 'eso es una prueba de encriptado' utilizando la clave de encriptación generada.
+// const ciphertext = CryptoObserver.encryptData('eso es una prueba de encriptado', encryptionKey);
+
+//* Convierte la clave de encriptación en formato hexadecimal para su visualización o almacenamiento.
+// const s = encryptionKey.toString('hex');
+
+//* Imprime en la consola los datos encriptados.
+// console.log('Encrypted data:', ciphertext);
+
+//* Busca en la base de datos un registro en la tabla HistorialMedicoModel donde el ID sea igual a 34.
+//  const historial = await HistorialMedicoModel().findOne({
+//   where: {
+//     id: 34,
+//   }
+// });
+
+//* Convierte el contenido del archivo a un buffer utilizando codificación hexadecimal.
+const buffer = Buffer.from(contenidoTexto, 'hex');
+
+// Desencripta los datos del historial médico utilizando el contenido del archivo como clave.
+const decryptedData = CryptoObserver.decryptData(historial?.dataValues.diagnostico ?? '', buffer);
+console.log('Decrypted data:', decryptedData);
+
+// (Comentario no documentado) Preparación para enviar un correo electrónico.
+// const mailOption = {
+//   to: 'luisdejesus200122@gmail.com',
+//   email: 'luisdejesus200122@gmail.com',
+//   name: 'Jesus Reyes',
+//   filename: `${crypto.randomUUID()}-Llave-de-acceso.txt`,
+// };
+
+// // // (Comentario no documentado) Envía un correo electrónico con la clave de encriptación.
+// const sendMail = new SendMail('receipt');
+// await sendMail.send(
+//   mailOption,
+//   'Gracias Por confiar en nosotros, Factura Enviada',
+//   s,
+// );
+
+res.json({
+  ok: true,
+  // historial
+  decryptedData,
+  encryptedData: historial?.dataValues.diagnostico
+
+})
+
+  }
 }
