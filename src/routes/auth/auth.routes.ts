@@ -7,6 +7,6 @@ router.post('/', controller.login);
 router.get('/qr', controller.qrGet);
 router.post('/file', controller.uploadFile);
 router.get('/encrypt', controller.encrypt);
-router.post('/google', controller.encrypt);
+router.post('/google', controller.googleSignIn);
 
 export default router;
