@@ -19,6 +19,8 @@ import { ConnectionDB } from '../db/conection/connection';
 import chalk from 'chalk';
 import moment from 'moment';
 import multer from 'multer';
+import helmet from 'helmet';
+import compression from 'compression';
 export class Server {
   public paths = {
     user: '/api/user',
@@ -74,10 +76,19 @@ export class Server {
 
     // Lectura y parseo del body
     this.app.use(express.json());
+    this.app.disable('x-powered-by');
+    this.app.use(helmet());
+    this.app.use(compression());
     this.app.use(express.urlencoded({extended: true}))
-    const storage = multer.memoryStorage();
-   const upload =  multer({storage: storage});
+    const storage = multer.diskStorage({destination: '/uploads/'});
+   const upload =  multer({storage: storage, dest: '/uploads/',   limits: { fileSize: 5 * 1024 * 1024 } // Establece el límite de tamaño del archivo a 1 MB
+  });
     this.app.use(upload.any());
+    //  this.app.use(fileUpload({
+    //         useTempFiles: true,
+    //         tempFileDir: '/tmp/',
+    //         createParentPath: true,
+    //     }));
     // Directorio Público
     this.app.use(express.static('./src/public'));
     this.app.use(express.static('./src/templates'));

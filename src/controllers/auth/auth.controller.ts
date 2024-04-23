@@ -6,10 +6,18 @@ import { ProfesionesModel } from '../../models/profesiones';
 import { TipoSangreModel } from '../../models/tipo_sangre';
 import qr from 'qrcode';
 import fs from 'fs';
-import crypto from 'crypto';
+// import crypto from 'crypto';
 import { CryptoObserver } from '../../helpers/crypto';
 import { SendMail } from '../../utils/mail/sendMail';
 import { HistorialMedicoModel } from '../../models/historial_medico_model';
+import { HfInference } from '@huggingface/inference';
+import { TwilioUtils } from '../../utils/twilio/twilio_utils';
+import { CloudinaryUtils } from '../../utils/cloudinary/cloudinary_utls';
+import path from 'path';
+import { googleVerify } from '../../helpers/google_verify';
+import { UserModel } from '../../models/user';
+
+
 export class Controller {
   login = async (req: Request, res: Response) => {
     try {
@@ -99,26 +107,34 @@ export class Controller {
       data
     });
   }
-
+ /** 
+  * Controlador para encriptacion.
+  */
   encrypt = async(req:any, res: Response) => {
 
   // *  Obtiene los archivos subidos desde la solicitud.
   const files = req.files;
+  // const filas = req.files;
+
   console.log(files); //* Imprime los archivos subidos en la consola.
+  // const base64Image = Buffer.from(files[0].buffer, 'binary').toString('base64url');
+  // console.log(base64Image)
 
   // *  Obtiene el contenido del primer archivo subido.
-  const contenido = files[0].buffer;
+  // const contenido = files[0].buffer;
+  // const fileUpdate = fs.readFileSync(files[0].buffer);
+  // console.log(fileUpdate)
 
   // * Convierte el contenido del archivo a texto utilizando codificación UTF-8.
-  const contenidoTexto = contenido.toString('utf-8');
-  console.table(contenidoTexto); // Muestra el contenido del archivo en formato de tabla.
+  // const contenidoTexto = contenido?.toString('utf-8');
+  // console.table(contenidoTexto); // Muestra el contenido del archivo en formato de tabla.
 
   //* Obtiene el historial médico correspondiente al ID 34 desde la base de datos.
-  const historial = await HistorialMedicoModel().findOne({
-    where: {
-      id: 36,
-    }
-  });
+  // const historial = await HistorialMedicoModel().findOne({
+  //   where: {
+  //     id: 36,
+  //   }
+  // });
   
 
   // const data =  fs.readFileSync(contenido, 'hex');
@@ -150,35 +166,80 @@ export class Controller {
 // });
 
 //* Convierte el contenido del archivo a un buffer utilizando codificación hexadecimal.
-const buffer = Buffer.from(contenidoTexto, 'hex');
+// const buffer = Buffer.from(contenidoTexto!, 'hex');
 
 // Desencripta los datos del historial médico utilizando el contenido del archivo como clave.
-const decryptedData = CryptoObserver.decryptData(historial?.dataValues.diagnostico ?? '', buffer);
-console.log('Decrypted data:', decryptedData);
+// const decryptedData = CryptoObserver.decryptData(historial?.dataValues.diagnostico ?? '', buffer);
+// console.log('Decrypted data:', decryptedData);
+// const token = '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';
+// const hf = new HfInference(token) as any;
 
+// const result = await hf.translation({
+//   model: 't5-base',
+//   inputs: 'Hola que tal, como estan, yo me llamo jesus y espero que esten todos bien.',
+//   parameters: {
+// 		'src_lang': 'es',
+// 		'tgt_lang': 'en'
+// 	}
+// })
+//   console.log(result)
+  // await TwilioUtils.sendSms('Hola desde nueva clase', '+50488513318')
+  const clud = new CloudinaryUtils(['jpg', 'png', 'gif']);
+  const result = await clud.uploadFile(files[0].path, 'images');
+  
 // (Comentario no documentado) Preparación para enviar un correo electrónico.
 // const mailOption = {
 //   to: 'luisdejesus200122@gmail.com',
 //   email: 'luisdejesus200122@gmail.com',
 //   name: 'Jesus Reyes',
-//   filename: `${crypto.randomUUID()}-Llave-de-acceso.txt`,
+// filename: `${crypto.randomUUID()}-Llave-de-acceso.txt`,
 // };
 
 // // // (Comentario no documentado) Envía un correo electrónico con la clave de encriptación.
 // const sendMail = new SendMail('receipt');
 // await sendMail.send(
 //   mailOption,
-//   'Gracias Por confiar en nosotros, Factura Enviada',
-//   s,
+  // 'Gracias Por confiar en nosotros, Factura Enviada',
+  // s,
 // );
 
 res.json({
   ok: true,
+  result,
   // historial
-  decryptedData,
-  encryptedData: historial?.dataValues.diagnostico
+  // clud
+  // decryptedData,
+  // encryptedData: historial?.dataValues.diagnostico
 
 })
 
   }
+   googleSignIn = async (req: Request, res: Response) => {
+    const { id_token } = req.body;
+    try {
+        const { correo, nombre } = await googleVerify(id_token);
+        let usuario = await UserModel().findOne({ where: {email: correo} });
+
+
+        if (!usuario) {
+            const data = {
+                nombre,
+                correo,
+                password: 'Autenticado con Google',
+            };
+            usuario = await UserModel().create(data);
+        }
+        res.json({
+            ok: true,
+            usuario,
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: `Hable con el administrador: ${error}`,
+        });
+
+    }
+
+}
 }

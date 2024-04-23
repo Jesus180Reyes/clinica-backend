@@ -5,7 +5,6 @@ import { TrabajadoresModel } from '../../models/trabajadores';
 import { Op } from 'sequelize';
 import { config } from 'dotenv';
 import { SendMail } from '../../utils/mail/sendMail';
-import fs from 'fs';
 config();
 export class Controller {
   getUsers = async (req: Request, res: Response) => {
