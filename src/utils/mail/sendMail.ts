@@ -17,7 +17,7 @@ export class SendMail {
       port: 465,
       secure: true, // Use `true` for port 465, `false` for all other ports
       auth: {
-        user: 'luisdejesus200122@gmail.com',
+        user: process.env.NODEMAILER_EMAIL,
         pass: process.env.NODEMAILER_PASSWORD,
       },
     });
@@ -40,7 +40,7 @@ export class SendMail {
       const htmlToSend = handleTemplate(values);
       const mailOptions: any = {
         to: values.to ? values.email : process.env.USER_EMAIL_SEND,
-        from: 'Edwin Corrales | Clinica la pope <www.edwinantonio40@gmail.com>',
+        from: process.env.NODEMAILER_FROM,
         subject: subject,
         html: htmlToSend,
         attachments: values.filename && [
