@@ -16,7 +16,9 @@ import { CloudinaryUtils } from '../../utils/cloudinary/cloudinary_utls';
 import path from 'path';
 import { googleVerify } from '../../helpers/google_verify';
 import { UserModel } from '../../models/user';
-
+import axios from 'axios';
+import {config} from 'dotenv'
+config();
 
 export class Controller {
   login = async (req: Request, res: Response) => {
@@ -240,6 +242,31 @@ res.json({
         });
 
     }
+
+}
+sendToDiscord = async(req: Request, res: Response) => {
+ try {
+  const url = process.env.DISCORD_WEBHOOK_URL!;
+  const data = {
+    content: 'Hola como van todos, espero que esten bien!!',
+    tts: true,
+    flags: 2
+};
+  await axios.post(url, data);
+
+  res.json({
+    ok: true, 
+    msg: 'Mensaje Enviado a Discord!!'
+  })
+ } catch (error: any) {
+  console.error(`Hable con el administrador: ${error}`)
+  res.status(500).json({
+    ok: false,
+    msg: `Hable con el administrador: ${error.message}`
+  })
+  
+ }
+
 
 }
 }

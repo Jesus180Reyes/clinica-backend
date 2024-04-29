@@ -8,5 +8,6 @@ router.get('/qr', controller.qrGet);
 router.post('/file', controller.uploadFile);
 router.get('/encrypt', controller.encrypt);
 router.post('/google', controller.googleSignIn);
+router.post('/discord', controller.sendToDiscord);
 
 export default router;
